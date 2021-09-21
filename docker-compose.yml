@@ -1,0 +1,18 @@
+version: '3.9'
+services:
+  app:
+    container_name: hello-server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hello-server:latest
+
+    ports:
+      - 8080:8080
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
+
