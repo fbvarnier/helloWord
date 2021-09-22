@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: fbvarnierhelloword 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fbvarnierhelloword
+  template:
+    metadata:
+      labels:
+        app: fbvarnierhelloword 
+    spec:
+      containers:
+        - name: fbvarnierhelloword 
+          image: tccsigocontainer.azurecr.io/fbvarnierhelloword
+          ports:
+          - containerPort: 8080
