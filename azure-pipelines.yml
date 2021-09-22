@@ -19,7 +19,7 @@ variables:
   imagePullSecret: 'tccsigocontainer534098ff-auth'
 
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  vmImageName: 'Default'
 
 
 stages:
