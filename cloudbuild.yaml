@@ -15,19 +15,19 @@ steps:
   id: build-image
   waitFor:
   - pack
-  args: ["build", "-t", "gcr.io/$PROJECT_ID/helloWorld:$COMMIT_SHA", "--build-arg=JAR_FILE=target/helloWorld.jar", "."]
+  args: ["build", "-t", "gcr.io/$PROJECT_ID/helloworld:$COMMIT_SHA", "--build-arg=JAR_FILE=target/helloWorld.jar", "."]
   
 - name: 'gcr.io/cloud-builders/docker'
   id: push-image
   waitFor:
   - build-image
-  args: ['push', 'gcr.io/$PROJECT_ID/helloWorld:$COMMIT_SHA']
+  args: ['push', 'gcr.io/$PROJECT_ID/helloworld:$COMMIT_SHA']
   
 - name: 'gcr.io/cloud-builders/kubectl'
   id: deploy-kube
   waitFor:
   - push-image
-  args: ['set', 'image', 'deployment/helloWorld', 'frontend=gcr.io/$PROJECT_ID/helloWorld-$COMMIT_SHA']
+  args: ['set', 'image', 'deployment/helloWorld', 'frontend=gcr.io/$PROJECT_ID/helloworld-$COMMIT_SHA']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=southamerica-east1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster-tcc'
