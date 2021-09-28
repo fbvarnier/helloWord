@@ -6,6 +6,6 @@ steps:
   entrypoint: mvn
   args: ['package', "-Dmaven.test.skip=true"]
 - name: gcr.io/cloud-builders/docker
-    args: ["build", "-t", "gcr.io/$PROJECT_ID/helloWorld", "--build-arg=JAR_FILE=target/helloWorld.jar", "."]
+  args: ["build", "-t", "gcr.io/$PROJECT_ID/helloWorld", "--build-arg=JAR_FILE=target/helloWorld.jar", "."]
 options:
  logging: CLOUD_LOGGING_ONLY
