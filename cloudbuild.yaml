@@ -7,5 +7,6 @@ steps:
   args: ['package', "-Dmaven.test.skip=true"]
 - name: gcr.io/cloud-builders/docker:latest
   args: ["build", "-t", "gcr.io/$PROJECT_ID/helloWorld", "--build-arg=JAR_FILE=target/helloWorld.jar", "."]
+images: ["gcr.io/$PROJECT_ID/helloWorld"]
 options:
  logging: CLOUD_LOGGING_ONLY
