@@ -1,18 +1,36 @@
 steps:
 - name: maven:3.8.2-openjdk-16
+  id: test
   entrypoint: mvn
   args: ['test']
+  
 - name: maven:3.8.2-openjdk-16
+  id: pack
+  waitFor:
+  - test
   entrypoint: mvn
   args: ['package', "-Dmaven.test.skip=true"]
+  
 - name: gcr.io/cloud-builders/docker
-  args: ["build", "-t", "gcr.io/$PROJECT_ID/helloWorld", "--build-arg=JAR_FILE=target/helloWorld.jar", "."]
+  id: build-image
+  waitFor:
+  - pack
+  args: ["build", "-t", "gcr.io/$PROJECT_ID/helloWorld:$COMMIT_SHA", "--build-arg=JAR_FILE=target/helloWorld.jar", "."]
+  
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/helloWorld']
+  id: push-image
+  waitFor:
+  - build-image
+  args: ['push', 'gcr.io/$PROJECT_ID/helloWorld:$COMMIT_SHA']
+  
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['set', 'image', 'deployment/helloWorld', 'frontend=gcr.io/$PROJECT_ID/helloWorld']
+  id: deploy-kube
+  waitFor:
+  - push-image
+  args: ['set', 'image', 'deployment/helloWorld', 'frontend=gcr.io/$PROJECT_ID/helloWorld-$COMMIT_SHA']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=southamerica-east1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster-tcc'
+  
 options:
  logging: CLOUD_LOGGING_ONLY
