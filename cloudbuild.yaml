@@ -39,7 +39,7 @@ steps:
   id: push-image
   waitFor:
   - apply-config
-  args: ['image', 'push', '--all-tags', 'gcr.io/$PROJECT_ID/helloworld']
+  args: ['push', '--all-tags', 'gcr.io/$PROJECT_ID/helloworld']
   
 - name: 'gcr.io/cloud-builders/kubectl'
   id: deploy-kube
