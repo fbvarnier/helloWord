@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: helloworld
+  name: helloworld-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: helloworld
+  template:
+    metadata:
+      labels:
+        run: helloworld
+    spec:
+      containers:
+      - image: gcr.io/direct-glider-327313/helloworld:latest
+        name: helloworld
+        ports:
+        - containerPort: 8080
