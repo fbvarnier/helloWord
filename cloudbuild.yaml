@@ -35,16 +35,10 @@ steps:
   - 'CLOUDSDK_COMPUTE_ZONE=southamerica-east1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster-tcc'
   
-- name: 'gcr.io/cloud-builders/docker'
-  id: push-image
-  waitFor:
-  - apply-config
-  args: ['push -a', 'gcr.io/$PROJECT_ID/helloworld']
-  
 - name: 'gcr.io/cloud-builders/kubectl'
   id: deploy-kube
   waitFor:
-  - push-image
+  - apply-config
   args: ['set', 'image', 'deployment/helloWorld', 'frontend=gcr.io/$PROJECT_ID/helloworld:$COMMIT_SHA']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=southamerica-east1-a'
