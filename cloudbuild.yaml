@@ -39,7 +39,7 @@ steps:
   id: deploy-kube
   waitFor:
   - apply-config
-  args: ['set', 'image', 'deployment/helloWorld', 'frontend=gcr.io/$PROJECT_ID/helloworld:$COMMIT_SHA']
+  args: ['set', 'image', 'deployment.apps/helloworld-deployment', 'frontend=gcr.io/$PROJECT_ID/helloworld:$COMMIT_SHA']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=southamerica-east1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=kube-cluster-tcc'
